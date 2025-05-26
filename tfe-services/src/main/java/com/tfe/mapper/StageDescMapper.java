@@ -4,7 +4,6 @@ import com.tfe.dto.StageDescDTO;
 import com.tfe.entity.StageDescEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -18,4 +17,6 @@ public interface StageDescMapper {
     List<StageDescDTO> toDtoList(List<StageDescEntity> entities);
 
     List<StageDescEntity> toEntityList(List<StageDescDTO> dtos);
+
+
 }

@@ -28,5 +28,24 @@ git push origin main
 
 ### Synchroniser avec GitHub
 
-```bash
 git pull origin main
+
+## Json pour les post
+### post stagedesc http://localhost:8080/api/stagedesc
+    {
+        "titre": "Stage de robotniv",
+        "theme": "science",
+        "description": "stagr",
+        "ageMin": 6,
+        "ageMax": 8
+
+    }
+### post stageInst http://localhost:8080/api/stageinst
+{
+"prix": 120,
+"dateDebut": "2025-07-15",
+"nbrParticipant": 20,
+"nbrInscrit": 5,
+"statut": true,
+"idStageDesc": 1
+}

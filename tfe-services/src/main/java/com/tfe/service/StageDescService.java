@@ -4,7 +4,6 @@ import com.tfe.StageDescRepository;
 import com.tfe.dto.StageDescDTO;
 import com.tfe.entity.StageDescEntity;
 import com.tfe.exception.StageNotFoundException;
-import com.tfe.exception.EmptyStageListException;
 import com.tfe.mapper.StageDescMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

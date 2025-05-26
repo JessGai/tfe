@@ -22,8 +22,10 @@ public class StageDescController {
 
     @GetMapping("/{id}")
     public StageDescDTO getById(@PathVariable int id){
+
         return stageService.getStageDescById(id);
     }
+
     @GetMapping
     public ResponseEntity<?> getAllStageDesc(
             @RequestParam(defaultValue = "0") int page,
