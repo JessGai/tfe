@@ -16,7 +16,11 @@ run TfeBackendApplication
 Mysql
 Ajouter login/mot de passe dans Edit Configuration, variable environnement
 Postgre  
-lancer Ubuntu, le postgre en ligne   
+lancer Ubuntu, le postgre en ligne  
+  
+dans application.properties:  
+si je veux creer des table: spring.jpa.hibernate.ddl-auto=create  
+si je veux rien faire: spring.jpa.hibernate.ddl-auto=update
 ## Commandes Git utiles
 synchronisation avec le main:
 git pull  
