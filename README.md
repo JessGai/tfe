@@ -62,4 +62,4 @@ POST: http://localhost:8081/api/stageinst
 PUT: http://localhost:8081/api/stageinst/id  
 DELETE: http://localhost:8081/api/stageinst/id  
 GET: http://localhost:8081/api/stageinst/byTheme/{theme}  
-
+Get: http://localhost:8081/api/stageinst/cards  

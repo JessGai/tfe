@@ -2,6 +2,7 @@ package com.tfe.service;
 
 import com.tfe.StageDescRepository;
 import com.tfe.StageInstanceRepository;
+import com.tfe.dto.StageForCardsDTO;
 import com.tfe.dto.StageInstDto;
 import com.tfe.entity.StageDescEntity;
 import com.tfe.entity.StageInstanceEntity;
@@ -65,5 +66,9 @@ public class StageInstService {
     public List<StageInstDto> getStageInstByTheme(String theme){
         List<StageInstanceEntity> lstEntity = repository.findByTheme(theme);
         return mapper.toDtoList(lstEntity);
+    }
+
+    public List<StageForCardsDTO> getAllStageForCards(){
+        return repository.findAllVisibleCards();
     }
 }

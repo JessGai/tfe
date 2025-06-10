@@ -2,6 +2,7 @@ package com.tfe;
 
 
 import com.tfe.dto.StageDescDTO;
+import com.tfe.dto.StageDescWithInstancesDTO;
 import com.tfe.service.StageDescService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -42,5 +43,15 @@ public class StageDescController {
     @PostMapping
     public StageDescDTO save(@Valid @RequestBody StageDescDTO stage){
         return stageService.saveStageDesc(stage);
+    }
+
+    @GetMapping("/with-instances")
+    public ResponseEntity<List<StageDescWithInstancesDTO>> getStageDescWithInstances() {
+        try {
+            List<StageDescWithInstancesDTO> result = stageService.getStageDescWithInstances();
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

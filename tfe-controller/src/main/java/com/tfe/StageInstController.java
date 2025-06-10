@@ -1,5 +1,6 @@
 package com.tfe;
 
+import com.tfe.dto.StageForCardsDTO;
 import com.tfe.dto.StageInstDto;
 import com.tfe.service.StageInstService;
 import jakarta.validation.Valid;
@@ -46,5 +47,9 @@ public class StageInstController {
     @GetMapping("/byTheme/{theme}")
     public ResponseEntity<List<StageInstDto>> getByTheme(@PathVariable String theme){
         return ResponseEntity.ok(service.getStageInstByTheme(theme));
+    }
+    @GetMapping("/cards")
+    public List<StageForCardsDTO> getAllVisibleCards() {
+        return service.getAllStageForCards();
     }
 }
