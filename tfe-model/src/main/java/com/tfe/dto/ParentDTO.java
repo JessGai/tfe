@@ -1,63 +1,47 @@
-package com.tfe.entity;
+package com.tfe.dto;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
+public class ParentDTO implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-@Entity
-@Table(name="parent")
-
-public class ParentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idParent;
 
-    @Column(nullable = false, unique = true)
+    @NotNull(message = "The email is required")
     private String email;
 
-    @Column(nullable = false)
+    @NotNull(message = "The name is required")
     private String nomParent;
 
-    @Column(nullable = false)
+    @NotNull(message = "The surname is required")
     private String prenomParent;
 
-    @Column(nullable = false)
+    @NotNull(message = "The address is required")
     private String adresse;
 
-    @Column(nullable = false)
+    @NotNull(message = "The postal code is required")
     private Integer codePostal;
 
-    @Column(nullable = false)
+    @NotNull(message = "The city is required")
     private String commune;
 
-    @Column(nullable = false)
+    @NotNull(message = "The phone number is required")
     private String telephone1;
 
     private String telephone2;
-    @Column(unique = true)
     private String auth0UserId;
 
-    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateCreation;
 
-    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime lastUpdate;
-
-    //remplissage de la date la 1ere fois
-    @PrePersist
-    protected void onCreate() {
-        dateCreation = LocalDateTime.now();
-        lastUpdate = LocalDateTime.now();
-    }
-
-    //repmlissage uniquement si update
-    @PreUpdate
-    protected void onUpdate() {
-        lastUpdate = LocalDateTime.now();
-    }
-
-    //getter&setter
 
     public int getIdParent() {
         return idParent;
