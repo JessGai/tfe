@@ -5,9 +5,13 @@ import com.tfe.dto.StageDescDTO;
 import com.tfe.dto.StageInstDto;
 import com.tfe.service.ParentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAuthority;
 
 @RestController
 @RequestMapping("/api/parent")
@@ -23,7 +27,11 @@ public class ParentController {
 
         return service.getParentById(id);
     }
-
+    @GetMapping("/test")
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    public void getMessageAdmin(){
+        System.out.println("message admin");
+    }
     @GetMapping
     public List<ParentDTO> getAllParents(){
         return service.getAllParents();
