@@ -55,12 +55,15 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter());
 
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/stagedesc/**").permitAll()
                         .requestMatchers("/api/stageinst/**").permitAll()
+                        .requestMatchers("/api/parent/**").permitAll()
+                        .requestMatchers("/api/enfant/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("admin")
-                        .requestMatchers("/api/parent/**").hasRole("parent")
+                        //.requestMatchers("/api/parent/**").hasRole("parent")
                         .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
                         .requestMatchers("/api/secured").authenticated()
                         .requestMatchers("/api/me").authenticated()

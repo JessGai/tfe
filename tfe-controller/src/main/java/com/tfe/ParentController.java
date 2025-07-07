@@ -22,6 +22,7 @@ public class ParentController {
     public ParentController(ParentService service){
         this.service=service;
     }
+
     @GetMapping("/{id}")
     public ParentDTO getParentById(@PathVariable int id){
 
@@ -32,6 +33,7 @@ public class ParentController {
     public void getMessageAdmin(){
         System.out.println("message admin");
     }
+
     @GetMapping
     public List<ParentDTO> getAllParents(){
         return service.getAllParents();
