@@ -12,7 +12,7 @@ public class StageDescWithInstancesDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    // StageDescWithInstancesDTO.java
+    // StageDescWithInstancesDTO
         private int idStageDesc;
         private String titre;
         private String theme;
@@ -43,7 +43,7 @@ public class StageDescWithInstancesDTO implements Serializable {
             this.instances = new ArrayList<>();
         }
 
-        // Constructeur à partir de StageDescDTO (si vous l'avez déjà)
+        // Constructeur à partir de StageDescDTO
         public StageDescWithInstancesDTO(StageDescDTO stageDescDTO) {
             this.idStageDesc = stageDescDTO.getIdStageDesc();
             this.titre = stageDescDTO.getTitre();
@@ -129,8 +129,4 @@ public class StageDescWithInstancesDTO implements Serializable {
             this.instances = instances;
         }
 
-        // Méthode utilitaire pour ajouter une instance
-        public void addInstance(StageInstDto instance) {
-            this.instances.add(instance);
-        }
 }

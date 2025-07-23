@@ -1,12 +1,12 @@
 package com.tfe;
 
 import com.tfe.dto.ParentDTO;
-import com.tfe.dto.StageDescDTO;
-import com.tfe.dto.StageInstDto;
+import com.tfe.dto.ParentWithChildrenDTO;
 import com.tfe.service.ParentService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,11 +43,17 @@ public class ParentController {
     public ParentDTO createParentForCurrentUser(@RequestBody ParentDTO dto, @RequestAttribute("auth0UserId") String auth0UserId) {
         return service.createParent(dto, auth0UserId);
     }
-
     @GetMapping("/me")
-    public ParentDTO getCurrentParent(@RequestAttribute("auth0UserId") String auth0UserId) {
-        return service.getParentByAuth0UserId(auth0UserId);
+    public ResponseEntity<ParentWithChildrenDTO> getMyData(@AuthenticationPrincipal Jwt principal) {
+        // Récupérer l'identifiant unique Auth0 du token JWT
+        String auth0UserId = principal.getSubject();
+        ParentWithChildrenDTO dto = service.getParentWithChildren(auth0UserId);
+        return ResponseEntity.ok(dto);
     }
+//    @GetMapping("/me")
+//    public ParentDTO getCurrentParent(@RequestAttribute("auth0UserId") String auth0UserId) {
+//        return service.getParentByAuth0UserId(auth0UserId);
+//    }
 
     @PutMapping("/{id}")
     public ParentDTO updateParent(@PathVariable int id, @RequestBody ParentDTO dto) {
@@ -58,4 +64,5 @@ public class ParentController {
         service.deleteParentById(id);
         return ResponseEntity.noContent().build();
     }
+
 }

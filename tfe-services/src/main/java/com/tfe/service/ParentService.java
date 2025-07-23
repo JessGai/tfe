@@ -1,11 +1,15 @@
 package com.tfe.service;
 
+import com.tfe.EnfantRepository;
 import com.tfe.ParentRepository;
 import com.tfe.dto.ParentDTO;
+import com.tfe.dto.ParentWithChildrenDTO;
+import com.tfe.entity.EnfantEntity;
 import com.tfe.entity.ParentEntity;
 import com.tfe.exception.ParentAlreadyExistsException;
 import com.tfe.exception.ParentAuth0NotFound;
 import com.tfe.exception.ParentNotFoundException;
+import com.tfe.mapper.EnfantMapper;
 import com.tfe.mapper.ParentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +21,15 @@ import java.util.List;
 public class ParentService {
     private static final Logger logger = LoggerFactory.getLogger(ParentService.class);
     private final ParentRepository repository;
+    private final EnfantRepository enfantRepository;
     private final ParentMapper mapper;
+    private final EnfantMapper enfantMapper;
 
-    public ParentService(ParentRepository repository, ParentMapper mapper){
+    public ParentService(ParentRepository repository, ParentMapper mapper, EnfantRepository enfantRepository, EnfantMapper enfantMapper){
         this.repository = repository;
         this.mapper = mapper;
+        this.enfantRepository = enfantRepository;
+        this.enfantMapper = enfantMapper;
     }
 
     public ParentDTO getParentById(int id){
@@ -77,5 +85,21 @@ public class ParentService {
         }
         repository.deleteById(id);
         logger.info("Parent deleted with id : {}", id);
+    }
+
+    //méthode pour récupérer le parent connecté et ses enfants
+    public ParentWithChildrenDTO getParentWithChildren(String auth0Id){
+        //récupérer le parent via l'auth0Id
+        ParentEntity parent = repository.findByAuth0UserId(auth0Id)
+                .orElseThrow(()-> new ParentAuth0NotFound(auth0Id));
+
+        //je crée une liste d'enfant pour le parent ayant l'idxxx
+        List<EnfantEntity> enfants = enfantRepository.findByParent_IdParent(parent.getIdParent());
+
+        //je crée mon dto
+        ParentWithChildrenDTO dto = new ParentWithChildrenDTO(parent);
+        dto.setEnfants(enfantMapper.toDtoList(enfants));
+        logger.info("Récupération du parent avec ses enfants pour l'id Auth0 : {}", auth0Id);
+        return dto;
     }
 }

@@ -21,9 +21,9 @@ public interface EnfantMapper {
 
     List<EnfantEntity> toEntityList(List<EnfantDTO> dtos);
 
-    // Méthode utilitaire appelée dans le mapping ci-dessus
+    // Méthode utilitaire appelée dans le mapping ci-dessus, evite les null
     default ParentEntity createParentEntity(int idParent) {
-        if (idParent == 0) {
+        if (idParent <= 0) {
             return null;
         }
         ParentEntity parent = new ParentEntity();

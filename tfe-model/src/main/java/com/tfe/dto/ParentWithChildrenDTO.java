@@ -1,64 +1,53 @@
-package com.tfe.entity;
+package com.tfe.dto;
 
-import jakarta.persistence.*;
+import com.tfe.entity.ParentEntity;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+public class ParentWithChildrenDTO implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-@Entity
-@Table(name="parent")
-
-public class ParentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //ParentWithChildren
     private int idParent;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false)
     private String nomParent;
-
-    @Column(nullable = false)
     private String prenomParent;
-
-    @Column(nullable = false)
     private String adresse;
-
-    @Column(nullable = false)
     private int codePostal;
-
-    @Column(nullable = false)
     private String commune;
-
-    @Column(nullable = false)
     private String telephone1;
-
     private String telephone2;
-    @Column(unique = true)
     private String auth0UserId;
-
-    @Column(nullable = false)
     private LocalDateTime dateCreation;
-
-    @Column(nullable = false)
     private LocalDateTime lastUpdate;
-
-    //remplissage de la date la 1ere fois
-    @PrePersist
-    protected void onCreate() {
-        dateCreation = LocalDateTime.now();
-        lastUpdate = LocalDateTime.now();
+    private List<EnfantDTO> enfants;
+    //constructeur par défaut
+    public ParentWithChildrenDTO(){
+        this.enfants = new ArrayList<>();
+    }
+    //constructeur a partir de ParentEntity
+    public ParentWithChildrenDTO(ParentEntity parent){
+        this.idParent = parent.getIdParent();
+        this.email = parent.getEmail();
+        this.nomParent = parent.getNomParent();
+        this.prenomParent = parent.getPrenomParent();
+        this.adresse = parent.getAdresse();
+        this.codePostal = parent.getCodePostal();
+        this.commune = parent.getCommune();
+        this.telephone1 = parent.getTelephone1();
+        this.telephone2 = parent.getTelephone2();
+        this.auth0UserId = parent.getAuth0UserId();
+        this.dateCreation = parent.getDateCreation();
+        this.lastUpdate = parent.getLastUpdate();
+        this.enfants = new ArrayList<>();
     }
 
-    //repmlissage uniquement si update
-    @PreUpdate
-    protected void onUpdate() {
-        lastUpdate = LocalDateTime.now();
-    }
-
-    //getter&setter
-
+    //getter & setter
     public int getIdParent() {
         return idParent;
     }
@@ -99,11 +88,11 @@ public class ParentEntity {
         this.adresse = adresse;
     }
 
-    public Integer getCodePostal() {
+    public int getCodePostal() {
         return codePostal;
     }
 
-    public void setCodePostal(Integer codePostal) {
+    public void setCodePostal(int codePostal) {
         this.codePostal = codePostal;
     }
 
@@ -153,5 +142,13 @@ public class ParentEntity {
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public List<EnfantDTO> getEnfants() {
+        return enfants;
+    }
+
+    public void setEnfants(List<EnfantDTO> enfants) {
+        this.enfants = enfants;
     }
 }

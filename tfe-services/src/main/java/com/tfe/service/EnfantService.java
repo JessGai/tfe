@@ -41,11 +41,10 @@ public class EnfantService {
     }
 
     public EnfantDTO updateChild(int id, EnfantDTO dto){
-        // Récupérer l'enfant en base
+        // Récup enfant
         EnfantEntity enfantEntity = repository.findById(id)
                 .orElseThrow(() -> new ChildNotFoundException(id));
 
-        // Optionnel : vérifier que le parent existe si tu modifies le parent (sinon ignore)
         if (dto.getIdParent() != 0 && dto.getIdParent() != enfantEntity.getParent().getIdParent()) {
             ParentEntity parent = parentRepository.findById(dto.getIdParent())
                     .orElseThrow(() -> new RuntimeException("Parent non trouvé avec l'id: " + dto.getIdParent()));

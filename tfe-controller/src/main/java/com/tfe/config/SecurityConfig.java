@@ -19,36 +19,6 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity()
 public class SecurityConfig {
-    //    private Auth0UserIdFilter auth0UserIdFilter;
-//    public SecurityConfig(Auth0UserIdFilter auth0UserIdFilter){
-//        this.auth0UserIdFilter = auth0UserIdFilter;
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/parent/me").authenticated()
-//                        .anyRequest().permitAll()
-//                )
-//                .addFilterBefore(auth0UserIdFilter, UsernamePasswordAuthenticationFilter.class)
-//                .oauth2ResourceServer(res -> res
-//                        .jwt(jwt -> jwt
-//                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-//                        )
-//                );
-//
-//        return http.build();
-//    }
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-//        String issuerUri = "https://dev-ox066ujh.us.auth0.com/";
-//        return NimbusJwtDecoder.withIssuerLocation(issuerUri).build();
-//    }
-//    private JwtAuthenticationConverter jwtAuthenticationConverter() {
-//        return new JwtAuthenticationConverter();
-//    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -57,24 +27,40 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/stagedesc/**").permitAll()
-                        .requestMatchers("/api/stageinst/**").permitAll()
-                        .requestMatchers("/api/parent/**").permitAll()
-                        .requestMatchers("/api/enfant/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("admin")
-                        //.requestMatchers("/api/parent/**").hasRole("parent")
-                        .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
+                        .requestMatchers("/api/parent/me").authenticated()
+                        .requestMatchers("/api/parent/**").hasRole("parent")
                         .requestMatchers("/api/secured").authenticated()
                         .requestMatchers("/api/me").authenticated()
+                        .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
+                        .requestMatchers("/api/stagedesc/**").permitAll()
+                        .requestMatchers("/api/stageinst/**").permitAll()
+                        .requestMatchers("/api/enfant/**").permitAll()
+                        .requestMatchers("/api/public/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter)
                         )
-                );
+                )
+                .securityContext(context -> context.requireExplicitSave(false))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }
