@@ -63,3 +63,19 @@ PUT: http://localhost:8081/api/stageinst/id
 DELETE: http://localhost:8081/api/stageinst/id  
 GET: http://localhost:8081/api/stageinst/byTheme/{theme}  
 Get: http://localhost:8081/api/stageinst/cards  
+
+##Connection a transaction
+POST: http://localhost:8081/api/transactions
+{
+"idTransaction": 2,
+"montant": 0.0,
+"dateTransaction": null,
+"statut": "EN_ATTENTE",
+"stripeSessionId": null,
+"emailPayeur": null,
+"idParent": 0,
+"montantFinal": 0.0,
+"tauxReduction": 0.0,
+"dateCreation": null,
+"lastUpdate": null
+}

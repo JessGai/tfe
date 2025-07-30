@@ -2,6 +2,7 @@ package com.tfe.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,17 +28,23 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/**").hasRole("admin")
+                        // Routes publiques
+                        .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
+                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**").permitAll()
+
+                        // Authentification simple requise
                         .requestMatchers("/api/parent/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/parent/exists").authenticated()
+                        .requestMatchers("/api/secured", "/api/me").authenticated()
+
+                        // Rôles
                         .requestMatchers("/api/parent/**").hasRole("parent")
-                        .requestMatchers("/api/secured").authenticated()
-                        .requestMatchers("/api/me").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("admin")
                         .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
-                        .requestMatchers("/api/stagedesc/**").permitAll()
-                        .requestMatchers("/api/stageinst/**").permitAll()
-                        .requestMatchers("/api/enfant/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/transactions/**").hasRole("parent")
+                        .requestMatchers("/api/inscription/**").hasRole("parent")
+                        // Tout le reste est interdit sauf si public explicite
+                        .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt

@@ -102,4 +102,9 @@ public class ParentService {
         logger.info("Récupération du parent avec ses enfants pour l'id Auth0 : {}", auth0Id);
         return dto;
     }
+
+    public boolean existsByAuth0UserId(String auth0UserId) {
+        logger.info("Vérification d'existence du parent avec auth0UserId = {}", auth0UserId);
+        return repository.existsByAuth0UserId(auth0UserId);
+    }
 }
