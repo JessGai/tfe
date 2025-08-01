@@ -24,6 +24,7 @@ public class CustomJwtGrantedAuthoritiesConverter implements org.springframework
 
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
+        System.out.println("JWT Claims : " + jwt.getClaims());
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         // Ajout des rôles

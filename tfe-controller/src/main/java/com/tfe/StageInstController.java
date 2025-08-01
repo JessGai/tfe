@@ -3,6 +3,7 @@ package com.tfe;
 import com.tfe.dto.StageForCardsDTO;
 import com.tfe.dto.StageInstDto;
 import com.tfe.service.StageInstService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,16 @@ public class StageInstController {
     public ResponseEntity<List<StageInstDto>> getByTheme(@PathVariable String theme){
         return ResponseEntity.ok(service.getStageInstByTheme(theme));
     }
+
+
     @GetMapping("/cards")
+    @Operation(
+            summary = "Calculates the sum of a list of numeric values",
+            description = "descriptio ",
+            operationId = "calculateSum",
+            tags = {"Stages"}
+
+    )
     public List<StageForCardsDTO> getAllVisibleCards() {
         return service.getAllStageForCards();
     }

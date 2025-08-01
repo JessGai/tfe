@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Routes publiques
                         .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
-                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**").permitAll()
+                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**", "/v3/api-docs/**").permitAll()
+                        //.requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**").permitAll()
 
                         // Authentification simple requise
                         .requestMatchers("/api/parent/me").authenticated()
@@ -41,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/parent/**").hasRole("parent")
                         .requestMatchers("/api/admin/**").hasRole("admin")
                         .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
-                        .requestMatchers("/api/transactions/**").hasRole("parent")
+                        .requestMatchers("/api/transactions/**", "/api/transactions/open/**").hasRole("parent")
                         .requestMatchers("/api/inscription/**").hasRole("parent")
                         // Tout le reste est interdit sauf si public explicite
                         .anyRequest().denyAll()
