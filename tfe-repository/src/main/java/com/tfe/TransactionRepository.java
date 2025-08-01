@@ -15,4 +15,6 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
 
     // transactions du parent connecté
     List<TransactionEntity> findByParent_IdParentOrderByDateCreationDesc(int idParent);
+
+    Optional<TransactionEntity> findByIdParentAndStatut(int idParent, String statut);
 }
