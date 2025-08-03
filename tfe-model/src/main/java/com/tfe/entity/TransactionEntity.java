@@ -23,8 +23,8 @@ public class TransactionEntity {
     @ManyToOne
     @JoinColumn(name = "fk_idParent", referencedColumnName = "idParent", nullable = false)
     private ParentEntity parent;
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
-    private List<InscriptionEntity> inscriptions;
+//    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+//    private List<InscriptionEntity> inscriptions;
 
     private double montantFinal;
     private double tauxReduction;
@@ -106,13 +106,13 @@ public class TransactionEntity {
         this.parent = parent;
     }
 
-    public List<InscriptionEntity> getInscriptions() {
-        return inscriptions;
-    }
-
-    public void setInscriptions(List<InscriptionEntity> inscriptions) {
-        this.inscriptions = inscriptions;
-    }
+//    public List<InscriptionEntity> getInscriptions() {
+//        return inscriptions;
+//    }
+//
+//    public void setInscriptions(List<InscriptionEntity> inscriptions) {
+//        this.inscriptions = inscriptions;
+//    }
 
     public double getMontantFinal() {
         return montantFinal;

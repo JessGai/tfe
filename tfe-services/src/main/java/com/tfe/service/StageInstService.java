@@ -49,7 +49,7 @@ public class StageInstService {
         entity.setDateDebut(dto.getDateDebut());
         entity.setNbrParticipant(dto.getNbrParticipant());
         entity.setNbrInscrit(dto.getNbrInscrit());
-        entity.setStatut(dto.isStatut());
+        entity.setStatut(dto.getStatut());
         entity.setStageDesc(stageDescEntity);
 
         //sauvegarde dans la db:

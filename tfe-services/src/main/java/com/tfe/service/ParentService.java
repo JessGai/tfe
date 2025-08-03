@@ -51,6 +51,11 @@ public class ParentService {
                 .orElseThrow(() -> new ParentAuth0NotFound(auth0UserId));
         return mapper.toDto(entity);
     }
+    public int getIdParentByAuth0UserId(String auth0UserId) {
+        return repository.findByAuth0UserId(auth0UserId)
+                .orElseThrow(() -> new ParentAuth0NotFound(auth0UserId))
+                .getIdParent();
+    }
 
     public ParentDTO createParent(ParentDTO dto, String auth0UserId) {
         if (repository.existsByAuth0UserId(auth0UserId)) {

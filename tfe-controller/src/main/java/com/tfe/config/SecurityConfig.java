@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Routes publiques
                         .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
-                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/api/panier/**", "/swagger-ui/**", "/doc/**", "/v3/api-docs/**").permitAll()
                         //.requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**").permitAll()
 
                         // Authentification simple requise

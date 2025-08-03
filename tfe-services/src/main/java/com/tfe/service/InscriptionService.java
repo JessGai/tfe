@@ -19,57 +19,86 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InscriptionService {
-    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
-    private final InscriptionRepository inscriptionRepository;
-    private final InscriptionMapper inscriptionMapper;
-    private final EnfantRepository enfantRepository;
-    private final StageInstanceRepository stageInstanceRepository;
-    private final TransactionRepository transactionRepository;
-
-    private final TransactionService transactionService;
-
-    public InscriptionService(InscriptionRepository inscriptionRepository, InscriptionMapper inscriptionMapper, EnfantRepository enfantRepository, StageInstanceRepository stageInstanceRepository, TransactionRepository transactionRepository, TransactionService transactionService) {
-        this.inscriptionRepository = inscriptionRepository;
-        this.inscriptionMapper = inscriptionMapper;
-        this.enfantRepository = enfantRepository;
-        this.stageInstanceRepository = stageInstanceRepository;
-        this.transactionRepository = transactionRepository;
-        this.transactionService = transactionService;
-    }
-
-
-    public InscriptionDTO addInscription(InscriptionDTO dto) {
-
-        //vérification que tout existe
-        EnfantEntity enfant = enfantRepository.findById(dto.getIdEnfant())
-                .orElseThrow(() -> new ChildNotFoundException(dto.getIdEnfant()));
-
-        StageInstanceEntity stage = stageInstanceRepository.findById(dto.getIdStageInstance())
-                .orElseThrow(() -> new StageNotFoundException(dto.getIdStageInstance()));
-
-        TransactionEntity transaction = transactionRepository.findById(dto.getIdTransaction())
-                .orElseThrow(() -> new TransactionNotFoundException(dto.getIdTransaction()));
-
-        //je récupère le prix de l'instance du stage
-        double prixInstance = stage.getPrix();
-
-        //création de l'inscription
-        InscriptionEntity entity = new InscriptionEntity();
-        entity.setEnfant(enfant);
-        entity.setStageInstance(stage);
-        entity.setTransaction(transaction);
-        entity.setMontantEffectif(prixInstance);
-
-        InscriptionEntity saved = inscriptionRepository.save(entity);
-
-        // Calul des montants lors de l'ajout d'une inscription par le parent
-        transaction.getInscriptions().add(saved);
-        transactionService.updateMontantsAndReduction(transaction);
-
-        transactionRepository.save(transaction);
-
-        return inscriptionMapper.toDto(saved);
-    }
+//    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+//    private final InscriptionRepository inscriptionRepository;
+//    private final InscriptionMapper inscriptionMapper;
+//    private final EnfantRepository enfantRepository;
+//    private final StageInstanceRepository stageInstanceRepository;
+//    private final TransactionRepository transactionRepository;
+//
+//    private final TransactionService transactionService;
+//
+//    public InscriptionService(InscriptionRepository inscriptionRepository, InscriptionMapper inscriptionMapper, EnfantRepository enfantRepository, StageInstanceRepository stageInstanceRepository, TransactionRepository transactionRepository, TransactionService transactionService) {
+//        this.inscriptionRepository = inscriptionRepository;
+//        this.inscriptionMapper = inscriptionMapper;
+//        this.enfantRepository = enfantRepository;
+//        this.stageInstanceRepository = stageInstanceRepository;
+//        this.transactionRepository = transactionRepository;
+//        this.transactionService = transactionService;
+//    }
+//
+////vincent
+//    public InscriptionDTO addInscriptionToTransaction(InscriptionDTO dto) {
+//        //vérification que tout existe
+//        EnfantEntity enfant = enfantRepository.findById(dto.getIdEnfant())
+//                .orElseThrow(() -> new ChildNotFoundException(dto.getIdEnfant()));
+//
+//        StageInstanceEntity stage = stageInstanceRepository.findById(dto.getIdStageInstance())
+//                .orElseThrow(() -> new StageNotFoundException(dto.getIdStageInstance()));
+//
+//        TransactionEntity transaction = transactionRepository.findById(dto.getIdTransaction())
+//                .orElseThrow(() -> new TransactionNotFoundException(dto.getIdTransaction()));
+//
+//        //je récupère le prix de l'instance du stage
+//        double prixInstance = stage.getPrix();
+//
+//        //création de l'inscription
+//        InscriptionEntity entity = new InscriptionEntity();
+//        entity.setEnfant(enfant);
+//        entity.setStageInstance(stage);
+//        entity.setTransaction(transaction);
+////        entity.setMontantEffectif(prixInstance);
+//
+//        transactionService.addInscriptionToTransaction(entity, transaction);
+//        //entity.setMontantEffectif(prixInstance*transaction.getTauxReduction());
+//        transactionService.setMontantTotal(transaction);
+//        transactionRepository.save(transaction);
+//       // InscriptionEntity saved = inscriptionRepository.save(entity);
+//        return inscriptionMapper.toDto(entity);
+//    }
+//
+//    public InscriptionDTO addInscription(InscriptionDTO dto) {
+//
+//        //vérification que tout existe
+//        EnfantEntity enfant = enfantRepository.findById(dto.getIdEnfant())
+//                .orElseThrow(() -> new ChildNotFoundException(dto.getIdEnfant()));
+//
+//        StageInstanceEntity stage = stageInstanceRepository.findById(dto.getIdStageInstance())
+//                .orElseThrow(() -> new StageNotFoundException(dto.getIdStageInstance()));
+//
+//        TransactionEntity transaction = transactionRepository.findById(dto.getIdTransaction())
+//                .orElseThrow(() -> new TransactionNotFoundException(dto.getIdTransaction()));
+//
+//        //je récupère le prix de l'instance du stage
+//        double prixInstance = stage.getPrix();
+//
+//        //création de l'inscription
+//        InscriptionEntity entity = new InscriptionEntity();
+//        entity.setEnfant(enfant);
+//        entity.setStageInstance(stage);
+//        entity.setTransaction(transaction);
+////        entity.setMontantEffectif(prixInstance);
+//
+//        InscriptionEntity saved = inscriptionRepository.save(entity);
+//
+//        // Calul des montants lors de l'ajout d'une inscription par le parent
+//        transaction.getInscriptions().add(saved);
+//        transactionService.updateMontantsAndReduction(transaction);
+//
+//        transactionRepository.save(transaction);
+//
+//        return inscriptionMapper.toDto(saved);
+//    }
 
 
 }

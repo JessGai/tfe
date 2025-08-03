@@ -1,6 +1,7 @@
 package com.tfe.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tfe.enums.TransactionStatut;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
@@ -17,9 +18,8 @@ public class InscriptionDTO implements Serializable {
     private int idEnfant;
     @NotNull(message="The stageInstancedId is required")
     private int idStageInstance ;
-    @NotNull(message="The transactionId is required")
-    private int idTransaction;
-    private double montantEffectif;
+     private TransactionStatut statut;
+     private double tauxREduction;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateCreation;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -51,20 +51,20 @@ public class InscriptionDTO implements Serializable {
         this.idStageInstance = idStageInstance;
     }
 
-    public int getIdTransaction() {
-        return idTransaction;
+    public TransactionStatut getStatut() {
+        return statut;
     }
 
-    public void setIdTransaction(int idTransaction) {
-        this.idTransaction = idTransaction;
+    public void setStatut(TransactionStatut statut) {
+        this.statut = statut;
     }
 
-    public double getMontantEffectif() {
-        return montantEffectif;
+    public double getTauxREduction() {
+        return tauxREduction;
     }
 
-    public void setMontantEffectif(double montantEffectif) {
-        this.montantEffectif = montantEffectif;
+    public void setTauxREduction(double tauxREduction) {
+        this.tauxREduction = tauxREduction;
     }
 
     public LocalDateTime getDateCreation() {

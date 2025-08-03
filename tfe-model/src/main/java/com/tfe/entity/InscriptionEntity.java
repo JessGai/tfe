@@ -1,4 +1,5 @@
 package com.tfe.entity;
+import com.tfe.enums.TransactionStatut;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,12 +18,10 @@ public class InscriptionEntity {
     @ManyToOne
     @JoinColumn(name = "fk_idStageInstance", referencedColumnName = "id_stage_instance", nullable = false)
     private StageInstanceEntity stageInstance;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_idTransaction", referencedColumnName = "idTransaction", nullable = true)
-    private TransactionEntity transaction;
-
-    private double montantEffectif;
+    @Enumerated(EnumType.STRING)
+    private TransactionStatut statut;
+    @Column(nullable = true)
+    private double tauxReduction;
 
     @Column(nullable = false)
     private LocalDateTime dateCreation;
@@ -69,20 +68,20 @@ public class InscriptionEntity {
         this.stageInstance = stageInstance;
     }
 
-    public TransactionEntity getTransaction() {
-        return transaction;
+    public TransactionStatut getStatut() {
+        return statut;
     }
 
-    public void setTransaction(TransactionEntity transaction) {
-        this.transaction = transaction;
+    public void setStatut(TransactionStatut statut) {
+        this.statut = statut;
     }
 
-    public double getMontantEffectif() {
-        return montantEffectif;
+    public double getTauxReduction() {
+        return tauxReduction;
     }
 
-    public void setMontantEffectif(double montantEffectif) {
-        this.montantEffectif = montantEffectif;
+    public void setTauxReduction(double tauxReduction) {
+        this.tauxReduction = tauxReduction;
     }
 
     public LocalDateTime getDateCreation() {

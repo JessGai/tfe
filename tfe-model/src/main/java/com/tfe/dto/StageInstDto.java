@@ -27,6 +27,9 @@ public class StageInstDto implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateDebut;
 
+    @JsonProperty("dateFin")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dateFin;
     @NotNull(message = "the number of participant is required")
     @Positive(message = "The number of participant must be positive")
     @JsonProperty("nbrParticipant")
@@ -76,6 +79,14 @@ public class StageInstDto implements Serializable {
         this.dateDebut = dateDebut;
     }
 
+    public LocalDate getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(LocalDate dateFin) {
+        this.dateFin = dateFin;
+    }
+
     public int getNbrParticipant() {
         return nbrParticipant;
     }
@@ -92,13 +103,7 @@ public class StageInstDto implements Serializable {
         this.nbrInscrit = nbrInscrit;
     }
 
-    public boolean isStatut() {
-        return statut;
-    }
 
-    public void setStatut(boolean statut) {
-        this.statut = statut;
-    }
 
     public Boolean getStatut() {
         return statut;
@@ -131,5 +136,4 @@ public class StageInstDto implements Serializable {
     public void setDateUpdate(LocalDateTime dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
-
 }

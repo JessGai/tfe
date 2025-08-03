@@ -19,7 +19,8 @@ public class StageInstanceEntity {
 
     @Column(name = "date_debut", nullable = false)
     private LocalDate dateDebut;
-
+    @Column(name = "date_fin")
+    private LocalDate dateFin;
     @Column(name = "nbr_participant", nullable = false)
     private int nbrParticipant;
 
@@ -77,6 +78,14 @@ public class StageInstanceEntity {
 
     public void setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
+    }
+
+    public LocalDate getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(LocalDate dateFin) {
+        this.dateFin = dateFin;
     }
 
     public int getNbrParticipant() {
