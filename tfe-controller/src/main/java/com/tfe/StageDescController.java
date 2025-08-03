@@ -4,6 +4,7 @@ package com.tfe;
 import com.tfe.dto.StageDescDTO;
 import com.tfe.dto.StageDescWithInstancesDTO;
 import com.tfe.service.StageDescService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,10 @@ public class StageDescController {
     }
 
     @GetMapping("/with-instances")
+    @Operation(
+            summary = "Envoi d'un stageDescription avec ses instances",
+            tags = {"Stage"}
+    )
     public ResponseEntity<List<StageDescWithInstancesDTO>> getStageDescWithInstances() {
         try {
             List<StageDescWithInstancesDTO> result = stageService.getStageDescWithInstances();

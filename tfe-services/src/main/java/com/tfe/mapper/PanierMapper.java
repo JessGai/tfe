@@ -15,7 +15,6 @@ public interface PanierMapper {
 
         entity.setIdPanier(dto.getIdPanier());
 
-        // ATTENTION : il faut injecter les services ou repositories pour trouver les entités => voir explication ci-dessous
         ParentEntity parent = new ParentEntity();
         parent.setIdParent(dto.getIdParent());
         entity.setParent(parent);

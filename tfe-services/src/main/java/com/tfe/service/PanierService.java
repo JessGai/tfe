@@ -1,14 +1,8 @@
 package com.tfe.service;
 
-import com.tfe.InscriptionRepository;
 import com.tfe.PanierRepository;
-import com.tfe.TransactionRepository;
 import com.tfe.dto.*;
-import com.tfe.entity.InscriptionEntity;
 import com.tfe.entity.PanierEntity;
-import com.tfe.entity.StageInstanceEntity;
-import com.tfe.entity.TransactionEntity;
-import com.tfe.enums.TransactionStatut;
 import com.tfe.mapper.PanierMapper;
 import org.springframework.stereotype.Service;
 
