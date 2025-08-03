@@ -2,8 +2,6 @@ package com.tfe;
 
 import com.tfe.dto.PanierDTO;
 import com.tfe.dto.PanierFullDTO;
-import com.tfe.dto.StageInstDto;
-import com.tfe.dto.TransactionDTO;
 import com.tfe.service.PanierService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
