@@ -32,9 +32,11 @@ private final PanierMapper mapper;
 
         List<PanierEntity> listePanier = panierRepository.findByParentIdParent(idParent);
         PanierFullDTO panierFullDTO = new PanierFullDTO();
-        //panierFullDTO.setListe(new ArrayList<>());
-
         double montantTotal = 0;
+        int taillePanier = listePanier.size();
+        double tauxReduction = calculerTauxReduction(taillePanier);
+        double montantAvecReduction = 0;
+
 
         //convertir entité en dto
         for (PanierEntity entity : listePanier){
@@ -45,15 +47,12 @@ private final PanierMapper mapper;
             listForDto.setStageDescTitre(entity.getStageInstance().getStageDesc().getTitre());
             listForDto.setStageInstDateDebut(entity.getStageInstance().getDateDebut());
             listForDto.setStageInstDateFin(entity.getStageInstance().getDateDebut().plusDays(5));
-            listForDto.setStageInstPrix(entity.getStageInstance().getPrix());
+            listForDto.setStageInstPrix((entity.getStageInstance().getPrix())*(1-tauxReduction));
             montantTotal += entity.getStageInstance().getPrix();
+            montantAvecReduction += listForDto.getStageInstPrix();
             panierFullDTO.getListe().add(listForDto);
         }
 
-        //calculer les montants
-        int taillePanier = listePanier.size();
-        double tauxReduction = calculerTauxReduction(taillePanier);
-        double montantAvecReduction = montantTotal*(1-tauxReduction);
         panierFullDTO.setMontantTotal(montantTotal);
         panierFullDTO.setTauxReduction(tauxReduction);
         panierFullDTO.setMontantAvecReduction(montantAvecReduction);

@@ -12,7 +12,7 @@ public class OpenApiConfig {
         return GroupedOpenApi.builder()
                 .group("documentation stage api")
                 .packagesToScan("com.tfe")
-                .pathsToMatch("/api/stageinst/**", "/api/panier/**", "/api/stagedesc/**", "api/parent/**", "/api/enfant/**")
+                .pathsToMatch("/api/stageinst/**", "/api/panier/**", "/api/stagedesc/**", "/api/parent/**", "/api/enfant/**")
                 .addOpenApiCustomizer(stripPrefixCustomizer)
                 .build();
     }
