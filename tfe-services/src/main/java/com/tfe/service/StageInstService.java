@@ -58,8 +58,14 @@ public class StageInstService {
     }
 
     public void deleteStageInstBtId(int id){
+        StageInstanceEntity entity = repository.findById(id)
+                .orElseThrow(() -> new StageNotFoundException(id));
+
         if(!repository.existsById(id)){
             throw new StageNotFoundException(id);
+        }
+        if(entity.getNbrInscrit() > 0){
+            throw new IllegalStateException("Impossible to delete an instance of stage if there is at least 1 subscription");
         }
         repository.deleteById(id);
     }

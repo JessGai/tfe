@@ -21,31 +21,55 @@ public class StageInstController {
     }
 
     @GetMapping
+    @Operation(
+            summary = "Renvoie tout les instances de stage",
+            tags = {"Stages"}
+    )
     public List<StageInstDto> getAllStageInstances() {
         return service.getAllStageInst();
     }
 
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Renvoie une instance de stage selon son id",
+            tags = {"Stages"}
+    )
     public StageInstDto getById(@PathVariable int id) {
         return service.getStageInstById(id);
     }
 
     @PostMapping
+    @Operation(
+            summary = "Création d'une instance de stage",
+            tags = {"Stages"}
+    )
     public StageInstDto save(@Valid @RequestBody StageInstDto stage) {
         return service.saveStageInst(stage);
     }
 
     @PutMapping("/{id}")
+    @Operation(
+            summary = "Modification d'une instance de stage",
+            tags = {"Stages"}
+    )
     public ResponseEntity<StageInstDto> updateStageInstance(@PathVariable int id, @RequestBody @Valid StageInstDto dto) {
         StageInstDto updated = service.updageStage(id, dto);
         return ResponseEntity.ok(updated);
     }
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Suppression d'une instance de stage selon son id, une vérification est faite sur le nombre d'inscrit (si >0 alors suppression impossible)",
+            tags = {"Stages"}
+    )
     public ResponseEntity<StageInstDto> deleteStageInste(@PathVariable int id){
         service.deleteStageInstBtId(id);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/byTheme/{theme}")
+    @Operation(
+            summary = "Renvoie une instance de stage selon son theme",
+            tags = {"Stages"}
+    )
     public ResponseEntity<List<StageInstDto>> getByTheme(@PathVariable String theme){
         return ResponseEntity.ok(service.getStageInstByTheme(theme));
     }
@@ -53,9 +77,7 @@ public class StageInstController {
 
     @GetMapping("/cards")
     @Operation(
-            summary = "Calculates the sum of a list of numeric values",
-            description = "descriptio ",
-            operationId = "calculateSum",
+            summary = "Renvoi la liste des stages Descriptions avec ses instances ayant un statut actif",
             tags = {"Stages"}
 
     )

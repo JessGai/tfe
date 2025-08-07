@@ -25,12 +25,10 @@ public class EnfantDTO implements Serializable {
     @JsonProperty("dateNaissance")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateNaissance;
-    @NotNull(message = "The gender is required")
-    @JsonProperty("genre")
-    private String genre;
-    @NotNull(message = "The language is required")
-    @JsonProperty("langueMaternelle")
-    private String langueMaternelle;
+
+    @JsonProperty("commentaire")
+    private String commentaire;
+
     @JsonProperty("dateCreation")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateCreation;
@@ -80,20 +78,12 @@ public class EnfantDTO implements Serializable {
         this.dateNaissance = dateNaissance;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getLangueMaternelle() {
-        return langueMaternelle;
-    }
-
-    public void setLangueMaternelle(String langueMaternelle) {
-        this.langueMaternelle = langueMaternelle;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     public LocalDateTime getDateCreation() {

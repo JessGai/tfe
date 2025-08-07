@@ -54,8 +54,7 @@ public class EnfantService {
         enfantEntity.setNomEnfant(dto.getNomEnfant());
         enfantEntity.setPrenomEnfant(dto.getPrenomEnfant());
         enfantEntity.setDateNaissance(dto.getDateNaissance());
-        enfantEntity.setGenre(dto.getGenre());
-        enfantEntity.setLangueMaternelle(dto.getLangueMaternelle());
+        enfantEntity.setCommentaire(dto.getCommentaire());
 
         EnfantEntity updatedEnfant = repository.save(enfantEntity);
 

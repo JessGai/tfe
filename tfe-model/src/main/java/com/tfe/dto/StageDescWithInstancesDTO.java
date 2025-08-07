@@ -103,6 +103,7 @@ public class StageDescWithInstancesDTO implements Serializable {
 
         public void setAgeMax(int ageMax) {
             this.ageMax = ageMax;
+
         }
 
         public Date getDCreation() {

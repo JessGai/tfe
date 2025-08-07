@@ -48,6 +48,41 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+    @ExceptionHandler({
+            StageNotFoundException.class,
+            ParentNotFoundException.class,
+            ChildNotFoundException.class,
+            PanierNotFoundException.class,
+            ParentAuth0NotFound.class
+    })
+    public ResponseEntity<ApiError> handleNotFound(RuntimeException ex) {
+        ApiError apiError = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Resource not found",
+                ex.getMessage(),
+                null
+        );
+
+        log.warn("Not found: {}", ex.getMessage());
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
+        ApiError apiError = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad request",
+                ex.getMessage(),
+                null
+        );
+
+        log.info("Bad request: {}", ex.getMessage());
+
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
 
 
     @ExceptionHandler(NoSuchElementException.class)

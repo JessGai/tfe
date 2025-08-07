@@ -21,10 +21,9 @@ public class EnfantEntity {
     private String prenomEnfant;
     @Column(nullable = false)
     private LocalDate dateNaissance;
-    @Column(nullable = false)
-    private String genre;
-    @Column(nullable = false)
-    private String langueMaternelle;
+
+    private String commentaire;
+
     @Column(nullable = false)
     private LocalDateTime dateCreation;
     @Column(nullable = false)
@@ -85,20 +84,12 @@ public class EnfantEntity {
         this.dateNaissance = dateNaissance;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getLangueMaternelle() {
-        return langueMaternelle;
-    }
-
-    public void setLangueMaternelle(String langueMaternelle) {
-        this.langueMaternelle = langueMaternelle;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     public LocalDateTime getDateCreation() {
