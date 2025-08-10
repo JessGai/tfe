@@ -2,16 +2,16 @@ package com.tfe;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.tfe.dto.CheckoutRequestDTO;
+import com.tfe.service.PaiementService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,12 @@ import java.util.Map;
 public class PaiementController {
     @Value("${stripe.api.secret}")
     private String stripeSecretKey;
+
+    private final PaiementService paiementService;
+
+    public PaiementController(PaiementService paiementService) {
+        this.paiementService = paiementService;
+    }
 
     @PostConstruct
     public void init() {
@@ -54,5 +60,29 @@ public class PaiementController {
         responseData.put("checkoutUrl", session.getUrl());
 
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<String> confirmPayment(@RequestParam String sessionId, @RequestParam int idParent, @RequestParam double montant) {
+        try {
+            Session session = Session.retrieve(sessionId);
+
+            if ("complete".equals(session.getStatus()) || "paid".equals(session.getPaymentStatus())) {
+
+                paiementService.gestionPaiementReussi(sessionId, idParent, montant);
+
+                return ResponseEntity.ok("Paiement confirmé et inscription enregistrée");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Paiement non validé");
+            }
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur Stripe : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur serveur : " + e.getMessage());
+        }
     }
 }

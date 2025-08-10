@@ -20,7 +20,6 @@ public class PanierController {
     @GetMapping("/{idParent}")
     @Operation(
             summary = "Envoi les données pour l'affichage du panier côté front",
-            description = "",
             tags = {"Panier"}
 
     )

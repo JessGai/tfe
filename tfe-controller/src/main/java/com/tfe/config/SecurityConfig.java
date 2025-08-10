@@ -35,11 +35,12 @@ public class SecurityConfig {
                         //.requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**").permitAll()
 
                         // Authentification simple requise
-                        .requestMatchers("/api/parent/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/parent/exists").authenticated()
+                        .requestMatchers("/api/parent/me").authenticated()
                         .requestMatchers("/api/secured", "/api/me").authenticated()
                         .requestMatchers("/create-checkout-session").authenticated()
                         .requestMatchers("/api/paiement/create-checkout-session").authenticated()
+                        .requestMatchers("/api/paiement/**").authenticated()
 
                         // Rôles
                         .requestMatchers("/api/parent/**").hasRole("parent")

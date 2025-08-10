@@ -110,6 +110,11 @@ private final PanierMapper mapper;
             }
         }
 
+        //verif que le stage n'est pas complet lors du paiement
+        if(stageInstance.getNbrInscrit() >= stageInstance.getNbrParticipant()){
+            throw new IllegalStateException("Le stage est malheureusement complet");
+        }
+
         PanierEntity entity = mapper.toEntity(dto);
         PanierEntity savedEntity = panierRepository.save(entity);
         return mapper.toDto(savedEntity);

@@ -8,6 +8,7 @@ public class CheckoutRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private double montant;
+    private int idParent;
 
     public double getMontant() {
         return montant;
@@ -15,5 +16,13 @@ public class CheckoutRequestDTO implements Serializable {
 
     public void setMontant(double montant) {
         this.montant = montant;
+    }
+
+    public int getIdParent() {
+        return idParent;
+    }
+
+    public void setIdParent(int idParent) {
+        this.idParent = idParent;
     }
 }

@@ -77,4 +77,8 @@ public class StageInstService {
     public List<StageForCardsDTO> getAllStageForCards(){
         return repository.findAllVisibleCards();
     }
+
+    public StageInstanceEntity updateStatut(StageInstanceEntity entity){
+        return repository.save(entity);
+    }
 }
