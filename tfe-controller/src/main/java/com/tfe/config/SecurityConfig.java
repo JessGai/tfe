@@ -32,8 +32,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
                         .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/api/panier/**", "/api/parent/**", "/swagger-ui/**", "/doc/**", "/v3/api-docs/**").permitAll()
 
-                        //.requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/swagger-ui/**", "/doc/**").permitAll()
-
                         // Authentification simple requise
                         .requestMatchers(HttpMethod.GET, "/api/parent/exists").authenticated()
                         .requestMatchers("/api/parent/me").authenticated()
@@ -41,6 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/create-checkout-session").authenticated()
                         .requestMatchers("/api/paiement/create-checkout-session").authenticated()
                         .requestMatchers("/api/paiement/**").authenticated()
+                        .requestMatchers("/api/historique/**").authenticated()
+                        .requestMatchers("/api/parent/historique/**").authenticated()
 
                         // Rôles
                         .requestMatchers("/api/parent/**").hasRole("parent")

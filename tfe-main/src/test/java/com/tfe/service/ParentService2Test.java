@@ -9,19 +9,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 @ComponentScan(basePackages = {"com.tfe"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableJpaRepositories("com.tfe")
 @ActiveProfiles("test")
 @Transactional
 @Rollback
-class ParentServiceTest {
+class ParentService2Test {
     @Autowired
     private ParentService parentService;
 
@@ -36,10 +39,18 @@ class ParentServiceTest {
         ParentEntity parent = new ParentEntity();
         parent.setNomParent("Test");
         parent.setAuth0UserId("auth0|test123");
+        parent.setPrenomParent("Jean");
+        parent.setAdresse("rue blabla");
+        parent.setCodePostal(1000);
+        parent.setCommune("Bruxelles");
+        parent.setEmail("email@mail.com");
+        parent.setTelephone1("021234567");
         parent = parentRepository.save(parent);
 
         EnfantEntity enfant = new EnfantEntity();
         enfant.setNomEnfant("Junior");
+        enfant.setPrenomEnfant("Junior");
+        enfant.setDateNaissance(LocalDate.of (2019,6, 12));
         enfant.setParent(parent);
         enfantRepository.save(enfant);
 
