@@ -17,10 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,16 +37,18 @@ public class StageServiceTest {
     private StageDescRepository stageDescRepository;
     @Autowired
     private StageInstanceRepository stageInstanceRepository;
+    @Autowired
+    private TestDataUtils testDataUtils;
 
     @Test
     void createAndGetStageDescById() {
+        String titre = "Titre du stage";
+        String theme = "theme";
+        String description = "Description du stage";
+        int ageMin = 6;
+        int ageMax = 8;
 
-        StageDescDTO stageDescDto = new StageDescDTO();
-        stageDescDto.setTitre("Titre du stage");
-        stageDescDto.setTheme("theme");
-        stageDescDto.setDescription("Description du stage");
-        stageDescDto.setAgeMin(6);
-        stageDescDto.setAgeMax(8);
+        StageDescDTO stageDescDto = testDataUtils.createStageDescDto(titre, theme, description, ageMin, ageMax);
 
         StageDescDTO savedDto = stageDescService.saveStageDesc(stageDescDto);
 
@@ -63,6 +62,7 @@ public class StageServiceTest {
 
     @Test
     void getStageDescWithInst() {
+
         StageDescEntity stageDesc1 = new StageDescEntity();
         stageDesc1.setTitre("Titre du stage 1");
         stageDesc1.setTheme("theme 1");
@@ -102,14 +102,14 @@ public class StageServiceTest {
                 .findFirst()
                 .orElseThrow();
         assertEquals(1, stage1.getInstances().size());
-        assertEquals(100, stage1.getInstances().get(0).getPrix());
+        assertEquals(100, stage1.getInstances().getFirst().getPrix());
 
         StageDescWithInstancesDTO stage2 = listsStage.stream()
                 .filter(s -> s.getTitre().equals("Titre du stage 2"))
                 .findFirst()
                 .orElseThrow();
         assertEquals(1, stage2.getInstances().size());
-        assertEquals(150, stage2.getInstances().get(0).getPrix());
+        assertEquals(150, stage2.getInstances().getFirst().getPrix());
 
     }
 

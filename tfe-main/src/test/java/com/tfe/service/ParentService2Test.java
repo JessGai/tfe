@@ -37,75 +37,44 @@ class ParentService2Test {
     private EnfantRepository enfantRepository;
     @Autowired
     private EnfantService enfantService;
+    @Autowired
+    private TestDataUtils testDataUtils;
     @Test
     void getParentWithChildren() {
         // Creation d'un parent et de son enfant
+        String nomEnfant = "Nomenfant";
+        String nomParent = "Nomparent";
 
-        ParentEntity parent = new ParentEntity();
-        parent.setNomParent("Test");
-        parent.setAuth0UserId("auth0|test123");
-        parent.setPrenomParent("Jean");
-        parent.setAdresse("rue blabla");
-        parent.setCodePostal(1000);
-        parent.setCommune("Bruxelles");
-        parent.setEmail("email@mail.com");
-        parent.setTelephone1("021234567");
-        parent = parentRepository.save(parent);
-
-        EnfantEntity enfant = new EnfantEntity();
-        enfant.setNomEnfant("Junior");
-        enfant.setPrenomEnfant("Junior");
-        enfant.setDateNaissance(LocalDate.of (2019,6, 12));
-        enfant.setParent(parent);
-        enfantRepository.save(enfant);
+        ParentEntity parentEntity = testDataUtils.createTestParent(nomParent);
+        EnfantEntity enfantEntity = testDataUtils.createChild(parentEntity, nomEnfant);
 
         ParentWithChildrenDTO dto = parentService.getParentWithChildren("auth0|test123");
 
         assertNotNull(dto);
-        assertEquals("Test", dto.getNomParent());
+        assertEquals(nomParent, dto.getNomParent());
         assertFalse(dto.getEnfants().isEmpty());
-        assertEquals("Junior", dto.getEnfants().getFirst().getNomEnfant());
+        assertEquals(nomEnfant, dto.getEnfants().getFirst().getNomEnfant());
     }
 
     @Test
     void verifyParentExists() {
-        ParentEntity parent = new ParentEntity();
-        parent.setNomParent("Test");
-        parent.setAuth0UserId("auth0|test123");
-        parent.setPrenomParent("Jean");
-        parent.setAdresse("rue blabla");
-        parent.setCodePostal(1000);
-        parent.setCommune("Bruxelles");
-        parent.setEmail("email@mail.com");
-        parent.setTelephone1("021234567");
-        parent = parentRepository.save(parent);
 
-        assertNotNull(parent);
+        ParentEntity parentEntity = testDataUtils.createTestParent("Nomparent");
+
+        assertNotNull(parentEntity);
         assertTrue(parentService.existsByAuth0UserId("auth0|test123"));
     }
     @Test
     void getChildById(){
-        ParentEntity parent = new ParentEntity();
-        parent.setNomParent("Test");
-        parent.setAuth0UserId("auth0|test123");
-        parent.setPrenomParent("Jean");
-        parent.setAdresse("rue blabla");
-        parent.setCodePostal(1000);
-        parent.setCommune("Bruxelles");
-        parent.setEmail("email@mail.com");
-        parent.setTelephone1("021234567");
-        parent = parentRepository.save(parent);
 
-        EnfantEntity enfant = new EnfantEntity();
-        enfant.setNomEnfant("Junior");
-        enfant.setPrenomEnfant("Junior");
-        enfant.setDateNaissance(LocalDate.of (2019,6, 12));
-        enfant.setParent(parent);
-        enfantRepository.save(enfant);
+        String nomEnfant = "Nomenfant";
+        ParentEntity parentEntity = testDataUtils.createTestParent("Nomparent");
 
-        EnfantDTO dto = enfantService.getEnfantById(enfant.getIdEnfant());
+        EnfantEntity enfantEntity = testDataUtils.createChild(parentEntity, nomEnfant);
 
-        assertEquals(enfant.getNomEnfant(), dto.getNomEnfant());
+        EnfantDTO dto = enfantService.getEnfantById(enfantEntity.getIdEnfant());
+
+        assertEquals(enfantEntity.getNomEnfant(), dto.getNomEnfant());
     }
 
 }
