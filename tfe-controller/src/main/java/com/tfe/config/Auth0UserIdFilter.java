@@ -18,11 +18,11 @@ public class Auth0UserIdFilter implements Filter {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt jwt) {
-            String auth0UserId = jwt.getSubject(); // "sub" claim
-            System.out.println("Token JWT détecté, subject = " + auth0UserId);
+            String auth0UserId = jwt.getSubject();
+            System.out.println("Detected token, subject = " + auth0UserId);
             request.setAttribute("auth0UserId", auth0UserId);
         } else {
-            System.out.println("Aucun token JWT valide détecté dans le contexte de sécurité.");
+            System.out.println("No Valid token detected in the Auth0UserIdFilter.");
         }
 
         chain.doFilter(request, response);

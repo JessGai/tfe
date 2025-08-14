@@ -13,15 +13,6 @@ import java.util.stream.Collectors;
 
 public class CustomJwtGrantedAuthoritiesConverter implements org.springframework.core.convert.converter.Converter<Jwt, Collection<GrantedAuthority>> {
 
-//    @Override
-//    public Collection<GrantedAuthority> convert(Jwt jwt) {
-//        List<String> roles = jwt.getClaimAsStringList("https://kidscamp.com/roles");
-//        if (roles == null) return List.of();
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toLowerCase()))
-//                .collect(Collectors.toList());
-//    }
-
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         System.out.println("JWT Claims : " + jwt.getClaims());

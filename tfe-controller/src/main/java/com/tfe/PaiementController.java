@@ -7,6 +7,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.tfe.dto.CheckoutRequestDTO;
 import com.tfe.service.PaiementService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,11 @@ public class PaiementController {
     }
 
     @PostMapping("/create-checkout-session")
+    @Operation(
+            summary = "Connexion a Stripe pour effectuer le paiement",
+            tags = {"Paiement"}
+
+    )
     public ResponseEntity<Map<String, String>> createCheckoutSession(@RequestBody CheckoutRequestDTO request) throws StripeException {
         String YOUR_DOMAIN = "http://localhost:4200";
 
@@ -46,7 +52,7 @@ public class PaiementController {
                                 .setQuantity(1L)
                                 .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
                                         .setCurrency("eur")
-                                        .setUnitAmount((long) (request.getMontant() * 100)) // montant en centimes
+                                        .setUnitAmount((long) (request.getMontant() * 100)) // ! montant en centimes
                                         .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                 .setName("Paiement KidsCamp - Panier")
                                                 .build())
@@ -63,6 +69,11 @@ public class PaiementController {
     }
 
     @PostMapping("/confirm")
+    @Operation(
+            summary = "Méthode qui recoit les information de Stripe et lance la gestion d'après paiement",
+            tags = {"Paiement"}
+
+    )
     public ResponseEntity<String> confirmPayment(@RequestParam String sessionId, @RequestParam int idParent, @RequestParam double montant) {
         try {
             Session session = Session.retrieve(sessionId);

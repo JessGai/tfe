@@ -23,12 +23,22 @@ public class StageDescController {
     }
 
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Récupère une description de stage selon son id",
+            tags = {"Stage"}
+
+    )
     public StageDescDTO getById(@PathVariable int id){
 
         return stageService.getStageDescById(id);
     }
 
     @GetMapping
+    @Operation(
+            summary = "Récupère toutes les descriptions de stage, permet la pagination d'un tableau",
+            tags = {"Stage"}
+
+    )
     public ResponseEntity<?> getAllStageDesc(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
@@ -42,21 +52,23 @@ public class StageDescController {
 
     }
     @PostMapping
+    @Operation(
+            summary = "Création une description de stage selon son id",
+            tags = {"Stage"}
+
+    )
     public StageDescDTO save(@Valid @RequestBody StageDescDTO stage){
         return stageService.saveStageDesc(stage);
     }
 
     @GetMapping("/with-instances")
     @Operation(
-            summary = "Envoi d'un stageDescription avec ses instances",
+            summary = "Envoi la liste des stageDescription avec ses instances",
             tags = {"Stage"}
     )
-    public ResponseEntity<List<StageDescWithInstancesDTO>> getStageDescWithInstances() {
-        try {
-            List<StageDescWithInstancesDTO> result = stageService.getStageDescWithInstances();
-            return ResponseEntity.ok(result);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public List<StageDescWithInstancesDTO> getStageDescWithInstances() {
+
+        return stageService.getStageDescWithInstances();
+
     }
 }

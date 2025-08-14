@@ -52,9 +52,8 @@ public class StageInstController {
             summary = "Modification d'une instance de stage",
             tags = {"Stages"}
     )
-    public ResponseEntity<StageInstDto> updateStageInstance(@PathVariable int id, @RequestBody @Valid StageInstDto dto) {
-        StageInstDto updated = service.updageStage(id, dto);
-        return ResponseEntity.ok(updated);
+    public StageInstDto updateStageInstance(@PathVariable int id, @RequestBody @Valid StageInstDto dto) {
+        return service.updageStage(id, dto);
     }
     @DeleteMapping("/{id}")
     @Operation(
@@ -70,8 +69,8 @@ public class StageInstController {
             summary = "Renvoie une instance de stage selon son theme",
             tags = {"Stages"}
     )
-    public ResponseEntity<List<StageInstDto>> getByTheme(@PathVariable String theme){
-        return ResponseEntity.ok(service.getStageInstByTheme(theme));
+    public List<StageInstDto> getByTheme(@PathVariable String theme){
+        return service.getStageInstByTheme(theme);
     }
 
 

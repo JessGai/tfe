@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 
 public class CustomJwtAuthenticationConverter extends JwtAuthenticationConverter {
 
-
-    protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-        List<String> roles = jwt.getClaimAsStringList("https://kidscamp.com/roles");
-
-        if (roles == null) return List.of();
-
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // important : préfixe ROLE_
-                .collect(Collectors.toList());
-    }
+//
+//    protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
+//        List<String> roles = jwt.getClaimAsStringList("https://kidscamp.com/roles");
+//
+//        if (roles == null) return List.of();
+//
+//        return roles.stream()
+//                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+//                .collect(Collectors.toList());
+//    }
 }
