@@ -19,7 +19,7 @@ public interface StageInstanceRepository extends JpaRepository<StageInstanceEnti
 
     @Query("SELECT new com.tfe.dto.StageForCardsDTO(" +
            "d.idStageDesc, d.titre, d.theme, d.description, d.ageMin, d.ageMax, " +
-           "i.prix, i.dateDebut, i.nbrParticipant, i.nbrInscrit, i.statut, i.idStageInst) " +
+           "i.prix, i.dateDebut, i.dateFin, i.nbrParticipant, i.nbrInscrit, i.statut, i.idStageInst) " +
            "FROM StageInstanceEntity i JOIN i.stageDesc d " +
            "WHERE i.statut = true")
     List<StageForCardsDTO> findAllVisibleCards();

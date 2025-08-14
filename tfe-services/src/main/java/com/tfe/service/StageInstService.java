@@ -47,6 +47,7 @@ public class StageInstService {
         //mise a jour des données
         entity.setPrix(dto.getPrix());
         entity.setDateDebut(dto.getDateDebut());
+        entity.setDateFin(dto.getDateFin());
         entity.setNbrParticipant(dto.getNbrParticipant());
         entity.setNbrInscrit(dto.getNbrInscrit());
         entity.setStatut(dto.getStatut());

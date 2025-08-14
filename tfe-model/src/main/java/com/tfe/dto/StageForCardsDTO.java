@@ -10,7 +10,7 @@ public class StageForCardsDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     public StageForCardsDTO(int idStageDesc, String titre, String theme, String description,
-                            int ageMin, int ageMax, int prix, LocalDate dateDebut,
+                            int ageMin, int ageMax, int prix, LocalDate dateDebut, LocalDate dateFin,
                             int nbrParticipant, int nbrInscrit, Boolean statut, int idStageInst) {
         this.idStageDesc = idStageDesc;
         this.titre = titre;
@@ -20,6 +20,7 @@ public class StageForCardsDTO implements Serializable {
         this.ageMax = ageMax;
         this.prix = prix;
         this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
         this.nbrParticipant = nbrParticipant;
         this.nbrInscrit = nbrInscrit;
         this.statut = statut;
@@ -33,6 +34,7 @@ public class StageForCardsDTO implements Serializable {
     private int ageMax;
     private int prix;
     private LocalDate dateDebut;
+    private LocalDate dateFin;
     private int nbrParticipant;
     private int nbrInscrit;
     private Boolean statut;
@@ -68,6 +70,10 @@ public class StageForCardsDTO implements Serializable {
 
     public LocalDate getDateDebut() {
         return dateDebut;
+    }
+
+    public LocalDate getDateFin() {
+        return dateFin;
     }
 
     public int getNbrParticipant() {
