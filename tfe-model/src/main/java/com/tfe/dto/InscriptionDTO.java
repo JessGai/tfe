@@ -19,7 +19,7 @@ public class InscriptionDTO implements Serializable {
     @NotNull(message="The stageInstancedId is required")
     private int idStageInstance ;
      private TransactionStatut statut;
-     private double tauxREduction;
+     private double tauxReduction;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateCreation;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -59,12 +59,12 @@ public class InscriptionDTO implements Serializable {
         this.statut = statut;
     }
 
-    public double getTauxREduction() {
-        return tauxREduction;
+    public double getTauxReduction() {
+        return tauxReduction;
     }
 
-    public void setTauxREduction(double tauxREduction) {
-        this.tauxREduction = tauxREduction;
+    public void setTauxReduction(double tauxReduction) {
+        this.tauxReduction = tauxReduction;
     }
 
     public LocalDateTime getDateCreation() {
