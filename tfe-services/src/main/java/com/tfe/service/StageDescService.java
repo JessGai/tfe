@@ -51,6 +51,7 @@ public class StageDescService {
         StageDescEntity savedEntity = repository.save(entity);
         return mapper.toDto(savedEntity);
     }
+
     // methode pour avoir stage description et ses instances
     public List<StageDescWithInstancesDTO> getStageDescWithInstances() {
         // Récupérer toutes les descriptions de stage
@@ -59,9 +60,7 @@ public class StageDescService {
         List<StageDescWithInstancesDTO> result = new ArrayList<>();
 
         for (StageDescEntity stageDesc : stageDescriptions) {
-            // Créer le DTO combiné à partir de l'entity
             StageDescWithInstancesDTO dto = new StageDescWithInstancesDTO(stageDesc);
-
             // Récupérer les instances pour cette description
             List<StageInstanceEntity> instances = stageInstanceRepository.findByStageDesc_IdStageDesc(stageDesc.getIdStageDesc());
 

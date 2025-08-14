@@ -2,9 +2,11 @@ package com.tfe.service;
 
 import com.tfe.EnfantRepository;
 import com.tfe.ParentRepository;
+import com.tfe.dto.EnfantDTO;
 import com.tfe.dto.ParentWithChildrenDTO;
 import com.tfe.entity.EnfantEntity;
 import com.tfe.entity.ParentEntity;
+import com.tfe.mapper.EnfantMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,9 +35,12 @@ class ParentService2Test {
 
     @Autowired
     private EnfantRepository enfantRepository;
+    @Autowired
+    private EnfantService enfantService;
     @Test
     void getParentWithChildren() {
-        // Arrange : créer un parent + enfant en base
+        // Creation d'un parent et de son enfant
+
         ParentEntity parent = new ParentEntity();
         parent.setNomParent("Test");
         parent.setAuth0UserId("auth0|test123");
@@ -54,14 +59,53 @@ class ParentService2Test {
         enfant.setParent(parent);
         enfantRepository.save(enfant);
 
-        // Act : appeler la méthode à tester
         ParentWithChildrenDTO dto = parentService.getParentWithChildren("auth0|test123");
 
-        // Assert : vérifier que le parent est bien récupéré avec ses enfants
         assertNotNull(dto);
         assertEquals("Test", dto.getNomParent());
         assertFalse(dto.getEnfants().isEmpty());
-        assertEquals("Junior", dto.getEnfants().get(0).getNomEnfant());
+        assertEquals("Junior", dto.getEnfants().getFirst().getNomEnfant());
+    }
+
+    @Test
+    void verifyParentExists() {
+        ParentEntity parent = new ParentEntity();
+        parent.setNomParent("Test");
+        parent.setAuth0UserId("auth0|test123");
+        parent.setPrenomParent("Jean");
+        parent.setAdresse("rue blabla");
+        parent.setCodePostal(1000);
+        parent.setCommune("Bruxelles");
+        parent.setEmail("email@mail.com");
+        parent.setTelephone1("021234567");
+        parent = parentRepository.save(parent);
+
+        assertNotNull(parent);
+        assertTrue(parentService.existsByAuth0UserId("auth0|test123"));
+    }
+    @Test
+    void getChildById(){
+        ParentEntity parent = new ParentEntity();
+        parent.setNomParent("Test");
+        parent.setAuth0UserId("auth0|test123");
+        parent.setPrenomParent("Jean");
+        parent.setAdresse("rue blabla");
+        parent.setCodePostal(1000);
+        parent.setCommune("Bruxelles");
+        parent.setEmail("email@mail.com");
+        parent.setTelephone1("021234567");
+        parent = parentRepository.save(parent);
+
+        EnfantEntity enfant = new EnfantEntity();
+        enfant.setNomEnfant("Junior");
+        enfant.setPrenomEnfant("Junior");
+        enfant.setDateNaissance(LocalDate.of (2019,6, 12));
+        enfant.setParent(parent);
+        enfantRepository.save(enfant);
+
+        EnfantDTO dto = enfantService.getEnfantById(enfant.getIdEnfant());
+
+        assertEquals(enfant.getNomEnfant(), dto.getNomEnfant());
     }
 
 }
