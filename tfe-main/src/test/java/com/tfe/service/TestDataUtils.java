@@ -2,10 +2,13 @@ package com.tfe.service;
 
 import com.tfe.EnfantRepository;
 import com.tfe.ParentRepository;
+import com.tfe.StageDescRepository;
+import com.tfe.StageInstanceRepository;
 import com.tfe.dto.StageDescDTO;
 import com.tfe.entity.EnfantEntity;
 import com.tfe.entity.ParentEntity;
 import com.tfe.entity.StageDescEntity;
+import com.tfe.entity.StageInstanceEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -15,10 +18,14 @@ public class TestDataUtils {
     private ParentRepository parentRepository;
 
     private EnfantRepository enfantRepository;
+    private StageInstanceRepository stageInstanceRepository;
+    private StageDescRepository stageDescRepository;
 
-    public TestDataUtils(ParentRepository parentRepository, EnfantRepository enfantRepository) {
+    public TestDataUtils(ParentRepository parentRepository, EnfantRepository enfantRepository, StageInstanceRepository stageInstanceRepository, StageDescRepository stageDescRepository) {
         this.parentRepository = parentRepository;
         this.enfantRepository = enfantRepository;
+        this.stageInstanceRepository = stageInstanceRepository;
+        this.stageDescRepository = stageDescRepository;
     }
 
     public ParentEntity createTestParent(String nomParent){
@@ -55,13 +62,26 @@ public class TestDataUtils {
         return stageDescDto;
     }
 
-    public StageDescEntity createStageDesc(String titre, String theme, String description, int ageMin, int ageMax){
+    public StageDescEntity createStageDesc(){
         StageDescEntity stageDesc = new StageDescEntity();
-        stageDesc.setTitre(titre);
-        stageDesc.setTheme(theme);
-        stageDesc.setDescription(description);
-        stageDesc.setAgeMin(ageMin);
-        stageDesc.setAgeMax(ageMax);
+        stageDesc.setTitre("titre");
+        stageDesc.setTheme("theme");
+        stageDesc.setDescription("description");
+        stageDesc.setAgeMin(4);
+        stageDesc.setAgeMax(10);
+        stageDesc = stageDescRepository.save(stageDesc);
         return stageDesc;
+    }
+
+    public StageInstanceEntity createStageInst(StageDescEntity stageDesc){
+        StageInstanceEntity instance = new StageInstanceEntity();
+        instance.setStageDesc(stageDesc);
+        instance.setDateDebut(LocalDate.now().plusDays(10));
+        instance.setDateFin(LocalDate.now().plusDays(15));
+        instance.setPrix(100);
+        instance.setNbrInscrit(0);
+        instance.setNbrParticipant(10);
+        instance = stageInstanceRepository.save(instance);
+        return instance;
     }
 }

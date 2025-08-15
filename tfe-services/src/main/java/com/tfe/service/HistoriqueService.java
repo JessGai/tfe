@@ -12,6 +12,7 @@ public class HistoriqueService {
     private final HistoriqueRepository repository;
 
     public HistoriqueService(HistoriqueRepository repository) {
+
         this.repository = repository;
     }
 

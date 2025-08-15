@@ -9,6 +9,8 @@ import com.tfe.entity.*;
 import com.tfe.enums.TransactionStatut;
 import com.tfe.exception.ParentNotFoundException;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Service
 public class PaiementService {
+    private static final Logger logger = LoggerFactory.getLogger(ParentService.class);
     private final InscriptionRepository inscriptionRepository;
     private final PanierRepository panierRepository;
     private final StageInstService stageInstService;
@@ -34,17 +37,14 @@ public class PaiementService {
 
     @Transactional
     public void gestionPaiementReussi(String idStripe, int idParent, double montant) {
-        // 3. Récupérer les éléments du panier pour ce parent
-        // Ici tu devrais avoir la logique pour trouver le panier lié à ce paiement
-        // Ex:
+
         List<PanierEntity> panierItems = panierRepository.findByParentIdParent(idParent);
         if (panierItems.isEmpty()) {
             System.out.println("Panier vide pour parent " + idParent);
             return;
         }
         double tauxRed = calculerTauxReduction(panierItems.size());
-        // 4. Pour chaque élément du panier, créer une inscription (enregistrée en base)
-        // Par exemple:
+        //table inscription
         for (PanierEntity panierItem : panierItems) {
             InscriptionEntity inscription = new InscriptionEntity();
             inscription.setEnfant(panierItem.getEnfant());
@@ -53,17 +53,12 @@ public class PaiementService {
             inscription.setStatut(TransactionStatut.PAYE);
             inscription.setTauxReduction(tauxRed);
             inscriptionRepository.save(inscription);
-        }
-
-        // 5. Mettre à jour les effectifs du stage instance (nbr inscrit +1 par inscription)
-        // Par exemple :
-        for (PanierEntity panierItem : panierItems) {
             StageInstanceEntity stageInstance = panierItem.getStageInstance();
             stageInstance.setNbrInscrit(stageInstance.getNbrInscrit() + 1);
-            stageInstService.updateStatut(stageInstance); // ou repository.save
+            stageInstService.updateStatut(stageInstance);
         }
 
-        // Enrigistrer dans table paiement
+        //table paiement
         ParentEntity par = parentRepository.findById(idParent)
                 .orElseThrow(() -> new ParentNotFoundException(idParent));
         PaiementEntity paiement = new PaiementEntity();
@@ -75,15 +70,13 @@ public class PaiementService {
         paiement.setParent(par);
 
         paiementRepository.save(paiement);
-        // 6. Vider le panier du parent (supprimer les entrées)
+
+        // Vidage du panier
         ParentEntity parent = parentRepository.findById(idParent)
                 .orElseThrow(() -> new ParentNotFoundException(idParent));
         panierRepository.deleteByParent(parent);
 
-
-        // 7. Eventuellement log ou envoyer notification
-
-        System.out.println("Payment succeeded, traitement terminé pour paymentId: " + idParent);
+        logger.info("Payment succeeded, traitement terminé pour paymentId: " + idParent);
     }
 
     public double calculerTauxReduction(int nbInscriptions) {

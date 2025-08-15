@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface HistoriqueRepository extends JpaRepository<InscriptionEntity, Integer> {
     @Query("""
@@ -20,16 +21,15 @@ public interface HistoriqueRepository extends JpaRepository<InscriptionEntity, I
             e.nomEnfant,
             (si.prix - (si.prix * i.tauxReduction / 100)),
             i.tauxReduction,
-            p.dateCreation
+            i.dateCreation
         )
         FROM InscriptionEntity i
         JOIN i.enfant e
         JOIN i.stageInstance si
         JOIN si.stageDesc sd
-        JOIN PaiementEntity p ON p.parent.idParent = e.parent.idParent
         WHERE e.parent.idParent = :idParent
-        ORDER BY p.dateCreation DESC
-   """ )
+        ORDER BY i.dateCreation DESC
+    """)
     List<HistoriqueDTO> findHistoriqueByParentId(@Param("idParent") int idParent);
 
 }
