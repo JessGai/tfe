@@ -28,11 +28,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Routes publiques
-                        .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
-                        .requestMatchers("/api/stagedesc/**", "/api/stageinst/**", "/api/enfant/**", "/api/public/**", "/api/panier/**", "/api/parent/**", "/swagger-ui/**", "/doc/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("admin")
+                        .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
+                        .requestMatchers("/api/parent/**").hasRole("parent")
+                        .requestMatchers("/api/transactions/**", "/api/transactions/open/**").hasRole("parent")
+                        .requestMatchers("/api/inscription/**").hasRole("parent")
+                        .requestMatchers("/api/enfant/**").hasRole("parent")
 
-                        // Authentification simple requise
                         .requestMatchers(HttpMethod.GET, "/api/parent/exists").authenticated()
                         .requestMatchers("/api/parent/me").authenticated()
                         .requestMatchers("/api/secured", "/api/me").authenticated()
@@ -42,14 +44,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/historique/**").authenticated()
                         .requestMatchers("/api/parent/historique/**").authenticated()
 
-                        // Rôles
-                        .requestMatchers("/api/parent/**").hasRole("parent")
-                        .requestMatchers("/api/admin/**").hasRole("admin")
-                        .requestMatchers("/api/super/**").hasAnyRole("parent", "admin")
-                        .requestMatchers("/api/transactions/**", "/api/transactions/open/**").hasRole("parent")
-                        .requestMatchers("/api/inscription/**").hasRole("parent")
-                        // Tout le reste est interdit sauf si public explicite
-                        .anyRequest().denyAll()
+                        .requestMatchers(HttpMethod.POST, "/api/parent").permitAll()
+                        .requestMatchers(
+                                "/api/stagedesc/**",
+                                "/api/stageinst/**",
+                                "/api/public/**",
+                                "/api/panier/**",
+                                "/swagger-ui/**",
+                                "/doc/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        //.anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
